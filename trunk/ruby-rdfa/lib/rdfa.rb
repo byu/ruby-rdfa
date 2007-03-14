@@ -36,6 +36,7 @@ module RdfA
     parser = RdfAParser.new
 
     document = REXML::Document.new(source)
+    raise 'No root element for xml document' if document.root.nil?
     return parser.parse(document,
       :base_uri => options[:base_uri],
       :bnode_namespace => options[:bnode_namespace],
@@ -170,7 +171,15 @@ module RdfA
       # Give the bnode namespace to the collector
       emit_bnode_namespace(collector, anon_namespace)
 
+      # Special Case: see if we have an xhtml document with a head.
+      #   If so, we need to treat link and meta about differently.
       # Start the BFS traversal of the xml document
+      head = nil
+      # using each_element is supposed to be faster xpath way in rexml
+      document.each_element('/html/head') do |element|
+        head = element
+      end
+
       queue = []
       queue << { :node => document.root, :ns => {'_' => anon_namespace} }
       while queue.length > 0
@@ -203,6 +212,14 @@ module RdfA
           about = current_node.parent.attributes['about']
           if about.nil? and current_node.parent.attributes['id']
             about = "\##{current_node.parent.attributes['id']}"
+          end
+          # We need to check to see if the link's parent is the
+          # head element of an xhtml document.
+          if head and current_node.parent == head
+            # Get the document root element (xhtml) about.
+            about = document.root.attributes['about']
+            # No xhtml about found, the about is the document ''.
+            about = '' unless about
           end
           about = name_generator.generate if about.nil?
         elsif about.nil?
