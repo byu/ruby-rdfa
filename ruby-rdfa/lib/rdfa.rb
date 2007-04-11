@@ -271,7 +271,8 @@ module RdfA
           # We find the ID or anonymous bnode uri if we have a rel
           # or rev in this node and no href.
           if(href_uri.nil? and (rel or rev))
-            href_uri = bnode_uri_from_node(name_generator, current_node)
+            href_pre = bnode_uri_from_node(name_generator, current_node)
+            href_uri = make_uri(new_ns, base_uri, href_pre)
           end
         rescue StandardError => e
           emit_warning(collector, current_node, e.to_s)
@@ -385,12 +386,11 @@ module RdfA
         return about if about
         # Else, the node passed to us is of the following:
         # 1. The link/meta's parent which may be head of xhtml document.
-        #    This implies: about=""
+        #    We either take the id attribute or it is an implicit about="".
         # 2. Some other parent node of a link or meta element.
         # 3. An ancestor node that has a rel or rev while lacking
         #    an href.
-        return '' if is_head
-        return bnode_uri_from_node(name_generator, node)
+        return bnode_uri_from_node(name_generator, node, is_head)
       end
 
       # We either return the bnode uri, or an ID URI fragment given
@@ -400,10 +400,10 @@ module RdfA
       # [node] -- The current node from which to make the name.
       #
       # returns a URI string.
-      def bnode_uri_from_node(name_generator, node)
+      def bnode_uri_from_node(name_generator, node, blank_over_bnode=false)
         id = node.attributes['id']
         return "\##{id}" if id
-        return name_generator.generate(node)
+        return blank_over_bnode ? '' : name_generator.generate(node)
       end
 
       # Create a URI string based on a CURIE
