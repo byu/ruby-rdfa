@@ -1,6 +1,11 @@
 #summary Change Log for versions of Ruby-RDFa
 #labels Featured
 
+= 2007 April 08, r8 =
+  * fixed bug where a URI object wasn't being created for hrefs.
+  * changed link/meta about override in head to precedence as stated in mailing list: non-blank about, id, then blank about
+  * added test case
+
 = 2007 April 07, r7 =
 
   * Added support for RDFa Nested Structures. That is, xml elements that have a rel or rev without an href attribute.
