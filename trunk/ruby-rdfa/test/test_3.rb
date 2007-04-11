@@ -10,11 +10,16 @@ class MyClass
     <head>
       <title property="dctitle">Dan's home page</title>
       <link rel="related" href="x.jpg" />
+      <link rel="related_2" />
       <meta property="subject_is_document">My Literal about Document</meta>
     </head>
-    <body>
+    <body rel='document_to_body_rel_no_href'>
       Nothing here.
-      <link rel="body_bnode_to_somelink" href="http://example.com/somelink" />
+      <span rev="spanny_to_body_bnode" rel="body_bnode_to_spanny" href="http://example.com/spanny" />
+      <link rel="body_bnode_to_link" href="http://example.com/somebodylink" />
+      <span id="span2" rel='body_bnode_to_bnode_named_span2'>
+        <span rev="span3_to_span2" rel="span2_to_span3" href="http://example.com/span3" />
+      </span>
     </body>
 </html>
 EOF
