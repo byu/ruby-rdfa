@@ -2,6 +2,6 @@
 #labels Featured
 
 = TODO List =
-  # Commit Code
-  # Add RDoc Comments
+  # Add even more RDoc Comments
   # Make lots of test cases
+  # Add Nested CURIE support
