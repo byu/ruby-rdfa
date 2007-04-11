@@ -1,4 +1,4 @@
-#A Change Log for versions of Ruby-RDFa
+#Summary Change Log for versions of Ruby-RDFa
 
 = 2007 April 07, r7 =
 
