@@ -1,0 +1,14 @@
+#A Change Log for versions of Ruby-RDFa
+
+= 2007 April 07, r7 =
+
+  * Added support for RDFa Nested Structures. That is, xml elements that have a rel or rev without an href attribute.
+
+= 2007 March 14, r6 =
+
+  * Initial import of code. With limitations:
+    # xml:base is completely ignored.
+    # Ignores Reification, but will output anonymous nodes in a special way.
+    # The RDFa Specification is still in flux, so please bear with.
+    # Nest CURIEs are not supported.
+    # Literal text are the only supported object datatype (as the content) for RDFa property statements; xml fragments are converted to a string. 
